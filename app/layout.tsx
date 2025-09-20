@@ -1,16 +1,48 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import {
+  DM_Sans,
+  Geist,
+  Geist_Mono,
+  IBM_Plex_Mono,
+  Lora,
+  Space_Grotesk,
+} from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/providers/theme-provider";
+import { ModeToggle } from "@/components/mode-toggle";
+import LayoutProvider from "@/providers/layout-provider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// const geistSans = Geist({
+//   variable: "--font-geist-sans",
+//   subsets: ["latin"],
+// });
+
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
+});
+
+const loraSerif = Lora({
+  variable: "--font-lora-serif",
+  subsets: ["latin"],
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  weight: ["400", "600"],
+  variable: "--font-ibm-plex-mono",
+  subsets: ["latin"],
+  style: ["italic"],
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+// const spaceGrotesk = Space_Grotesk({
+//   variable: "--font-space-grotesk",
+//   subsets: ["latin"],
+// });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,11 +55,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${dmSans.variable} ${loraSerif.variable} ${ibmPlexMono.variable} antialiased`}
       >
-        {children}
+        <LayoutProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {/* <ModeToggle /> */}
+            {children}{" "}
+          </ThemeProvider>
+        </LayoutProvider>
       </body>
     </html>
   );
