@@ -2,15 +2,21 @@
 
 import * as React from "react";
 import {
+  AudioWaveformIcon,
+  BlocksIcon,
   BookOpen,
   Bot,
   Command,
+  ContactIcon,
   Frame,
+  HomeIcon,
   LifeBuoy,
   Map,
   PieChart,
   Send,
   Settings2,
+  SettingsIcon,
+  Sparkles,
   SquareTerminal,
 } from "lucide-react";
 
@@ -27,6 +33,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { Separator } from "./ui/separator";
+import { Card, CardContent, CardFooter, CardTitle } from "./ui/card";
+import { AuroraText } from "./ui/aurora-text";
+import { Button } from "./ui/button";
 
 const data = {
   user: {
@@ -36,120 +46,143 @@ const data = {
   },
   navMain: [
     {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
+      title: "Home",
+      url: "/dashboard",
+      icon: HomeIcon,
       isActive: true,
       items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
+        // {
+        //   title: "History",
+        //   url: "#",
+        // },
+        // {
+        //   title: "Starred",
+        //   url: "#",
+        // },
+        // {
+        //   title: "Settings",
+        //   url: "#",
+        // },
       ],
     },
     {
-      title: "Models",
-      url: "#",
-      icon: Bot,
+      title: "Contacts",
+      url: "/contacts",
+      icon: ContactIcon,
       items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
+        // {
+        //   title: "Genesis",
+        //   url: "#",
+        // },
+        // {
+        //   title: "Explorer",
+        //   url: "#",
+        // },
+        // {
+        //   title: "Quantum",
+        //   url: "#",
+        // },
       ],
     },
     {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
+      title: "Automations",
+      url: "/automations",
+      icon: AudioWaveformIcon,
       items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
+        // {
+        //   title: "Introduction",
+        //   url: "#",
+        // },
+        // {
+        //   title: "Get Started",
+        //   url: "#",
+        // },
+        // {
+        //   title: "Tutorials",
+        //   url: "#",
+        // },
+        // {
+        //   title: "Changelog",
+        //   url: "#",
+        // },
+      ],
+    },
+    {
+      title: "Integration",
+      url: "/integrations",
+      icon: BlocksIcon,
+      items: [
+        // {
+        //   title: "General",
+        //   url: "#",
+        // },
+        // {
+        //   title: "Team",
+        //   url: "#",
+        // },
+        // {
+        //   title: "Billing",
+        //   url: "#",
+        // },
+        // {
+        //   title: "Limits",
+        //   url: "#",
+        // },
       ],
     },
     {
       title: "Settings",
-      url: "#",
-      icon: Settings2,
+      url: "/settings",
+      icon: SettingsIcon,
       items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
+        // {
+        //   title: "General",
+        //   url: "#",
+        // },
+        // {
+        //   title: "Team",
+        //   url: "#",
+        // },
+        // {
+        //   title: "Billing",
+        //   url: "#",
+        // },
+        // {
+        //   title: "Limits",
+        //   url: "#",
+        // },
       ],
     },
   ],
   navSecondary: [
     {
       title: "Support",
-      url: "#",
+      url: "/support",
       icon: LifeBuoy,
     },
     {
       title: "Feedback",
-      url: "#",
+      url: "/feedback",
       icon: Send,
     },
   ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
+  // projects: [
+  //   {
+  //     name: "Design Engineering",
+  //     url: "#",
+  //     icon: Frame,
+  //   },
+  //   {
+  //     name: "Sales & Marketing",
+  //     url: "#",
+  //     icon: PieChart,
+  //   },
+  //   {
+  //     name: "Travel",
+  //     url: "#",
+  //     icon: Map,
+  //   },
+  // ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -174,9 +207,29 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        {/* <NavProjects projects={data.projects} /> */}
+        <Separator className="opacity-50" />
+        <NavSecondary items={data.navSecondary} className="" />
+        <Card className="h-full bg-card m-2 p-4 flex flex-col justify-between">
+          <div className="flex flex-col gap-6">
+            <CardTitle className="p-0">
+              <h1 className="font-medium text-2xl">
+                Upgrade to{" "}
+                <AuroraText className="text-3xl">Smart AI</AuroraText>
+              </h1>
+            </CardTitle>
+            <CardContent className="p-0">
+              <p>Lorem ipsum doler salamat</p>
+            </CardContent>
+          </div>
+          <CardFooter className="p-0">
+            <Button className="w-full">
+              Upgrade <Sparkles />
+            </Button>
+          </CardFooter>
+        </Card>
       </SidebarContent>
+
       <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>
