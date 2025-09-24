@@ -9,13 +9,12 @@ type Props = {
   color?: string;
 };
 
-const Loader = ({ children, state, className, color }: Props) => {
-  return state ? (
-    <div className={cn(className)}>
-      <LoaderCircle color={color} />
+const Loader = () => {
+  return (
+    <div className="w-screen h-screen mx-auto flex flex-col gap-4 justify-center items-center">
+      <h1>Loading your Data</h1>
+      <LoaderCircle className="animate-spin mx-auto" />
     </div>
-  ) : (
-    { children }
   );
 };
 

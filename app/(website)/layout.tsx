@@ -7,7 +7,7 @@ import {
   Lora,
   Space_Grotesk,
 } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { ModeToggle } from "@/components/mode-toggle";
 import LayoutProvider from "@/providers/layout-provider";
@@ -54,38 +54,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  //   return (
-  //     <html lang="en" suppressHydrationWarning>
-  //       <body
-  //         className={`${dmSans.variable} ${loraSerif.variable} ${ibmPlexMono.variable} antialiased`}
-  //       >
-  //         <ThemeProvider
-  //           attribute="class"
-  //           defaultTheme="system"
-  //           enableSystem
-  //           disableTransitionOnChange
-  //         >
-  //           {children}
-  //         </ThemeProvider>
-  //       </body>
-  //     </html>
-  //   );
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${dmSans.variable} ${loraSerif.variable} ${ibmPlexMono.variable} antialiased`}
-      >
-        {/* <LayoutProvider> */}
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
-        {/* </LayoutProvider> */}
-      </body>
-    </html>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      {children}
+    </ThemeProvider>
   );
 }

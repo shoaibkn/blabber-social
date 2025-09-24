@@ -25,7 +25,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { useSession } from "@/auth-client";
+import { signOut, signOutUser, useSession } from "@/auth-client";
 import { redirect } from "next/navigation";
 
 export function NavUser({
@@ -50,6 +50,7 @@ export function NavUser({
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage
+                  //@ts-expect-error
                   src={session?.user.image}
                   alt={session?.user.name}
                 />
@@ -74,6 +75,7 @@ export function NavUser({
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage
+                    //@ts-expect-error
                     src={session?.user.image}
                     alt={session?.user.name}
                   />
@@ -93,7 +95,10 @@ export function NavUser({
             <DropdownMenuGroup>
               <DropdownMenuItem onClick={() => redirect("/plans")}>
                 <Sparkles />
-                Upgrade to Pro
+                {/*@ts-expect-error*/}
+                {session?.user.plan.plan === "FREE"
+                  ? "Upgrade to Pro"
+                  : "View Plans"}
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
@@ -112,7 +117,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => signOutUser()}>
               <LogOut />
               Log out
             </DropdownMenuItem>

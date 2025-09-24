@@ -1,4 +1,5 @@
 "use client";
+import { useSession } from "@/auth-client";
 import { PlanPricing } from "@/components/plans-pricing";
 import { AuroraText } from "@/components/ui/aurora-text";
 import { Badge } from "@/components/ui/badge";
@@ -11,7 +12,7 @@ import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { ShineBorder } from "@/components/ui/shine-border";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle2Icon, CheckCircleIcon } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const PLANS = [
   {
@@ -75,8 +76,16 @@ const PLANS = [
 
 const Plans = () => {
   const [isAnnually, setIsAnnually] = useState<boolean>(false);
+  const { data: session } = useSession();
+  const [currentPlan, setCurrentPlan] = useState<string>(
+    //@ts-expect-error
+    session?.user.plan.plan || "FREE"
+  );
+
+  useEffect(() => {}, [session]);
+
   return (
-    <main className="p-4">
+    <main className="">
       <div className="flex flex-row justify-between mb-12">
         <h1 className="text-4xl">Plans</h1>
         <div className="bg-muted flex h-11 w-fit shrink-0 items-center rounded-md p-1 text-lg">
@@ -117,7 +126,7 @@ const Plans = () => {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row lg:flex-row justify-between gap-6 w-full md:w-2/3 lg:w-2/3 mx-auto">
+      <div className="flex flex-col md:flex-row lg:flex-row justify-between gap-6 w-full md:w-full lg:w-3/4 mx-auto lg:min-w-2xl">
         <MagicCard
           className="rounded-md w-full md:w-1/2 lg:w-1/2"
           gradientColor="#34d399"
@@ -132,7 +141,9 @@ const Plans = () => {
               </Badge>
               <div className="flex flex-col gap-2 my-2 pb-6">
                 <div className="flex flex-col">
-                  <h1 className="text-5xl">Downgrade Plan</h1>
+                  <h1 className="text-5xl">
+                    {currentPlan === "FREE" ? "Current Plan" : "Downgrade Plan"}
+                  </h1>
                   <span className="text-sm text-muted-foreground">
                     {PLANS[0].for}
                   </span>
@@ -149,14 +160,18 @@ const Plans = () => {
               <Separator />
             </div>
             <ul className="flex flex-col gap-4 my-4 h-full items-start">
-              {PLANS[0].features.map((feature: string) => (
-                <li className="flex flex-row gap-2">
+              {PLANS[0].features.map((feature: string, index: number) => (
+                <li className="flex flex-row gap-2" key={index}>
                   <CheckCircle2Icon strokeWidth={1.5} /> {feature}
                 </li>
               ))}
             </ul>
-            <Button className="w-full" variant="outline">
-              Downgrade Plan
+            <Button
+              className="w-full"
+              variant="outline"
+              disabled={currentPlan === "FREE"}
+            >
+              {currentPlan === "FREE" ? "Your current plan" : "Downgrade Plan"}
             </Button>
           </div>
         </MagicCard>
@@ -178,6 +193,7 @@ const Plans = () => {
               <Badge className="text-sm">{PLANS[1].title}</Badge>
               <div className="flex flex-col gap-2 my-2 pb-6">
                 <div className="flex flex-col">
+                  {currentPlan === "PRO" ? "Current Plan" : "Upgrade to"}
                   <AuroraText className="text-5xl font-bold">
                     Smart AI
                   </AuroraText>
@@ -197,20 +213,20 @@ const Plans = () => {
               <Separator />
             </div>
             <ul className="flex flex-col gap-4 my-4 h-full items-start">
-              {PLANS[1].features.map((feature: string) => (
-                <li className="flex flex-row gap-2">
+              {PLANS[1].features.map((feature: string, index: number) => (
+                <li className="flex flex-row gap-2" key={index}>
                   <CheckCircle2Icon strokeWidth={1.5} /> {feature}
                 </li>
               ))}
             </ul>
-            <Button disabled className="w-full" variant="outline">
-              Your current plan
+            <Button disabled={currentPlan === "PRO"} className="w-full">
+              {currentPlan === "PRO" ? "Your current plan" : "Switch to Pro"}
             </Button>
           </div>
         </MagicCard>
       </div>
       <MagicCard
-        className="rounded-md md:w-2/3 lg:w-2/3 w-full mx-auto mt-6"
+        className="rounded-md md:w-full lg:w-3/4 w-full mx-auto mt-6"
         gradientColor="#34d399"
         gradientOpacity={0.1}
         gradientFrom="#22c55e"
@@ -221,14 +237,20 @@ const Plans = () => {
             <Badge className="text-sm">{PLANS[2].title}</Badge>
             <div className="flex flex-col gap-2 my-2">
               <div className="flex flex-col">
-                <h1 className="text-5xl">Switch to Enterprise Plan</h1>
+                {currentPlan === "ENTERPRISE" ? (
+                  <h1 className="text-5xl">Current Enterprise Plan</h1>
+                ) : (
+                  <h1 className="text-5xl">Switch to Enterprise Plan</h1>
+                )}
                 <span className="text-sm text-muted-foreground">
                   {PLANS[2].for}
                 </span>
               </div>
             </div>
             <div className="flex flex-row justify-end">
-              <Button size="lg">Contact Sales</Button>
+              <Button size="lg" disabled={currentPlan === "ENTERPRISE"}>
+                Contact Sales
+              </Button>
             </div>
           </div>
         </div>

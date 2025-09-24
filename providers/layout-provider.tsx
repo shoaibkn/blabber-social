@@ -2,30 +2,19 @@
 import { useSession } from "@/auth-client";
 import { AppSidebar } from "@/components/app-sidebar";
 import Breadcrumbs from "@/components/breadcrumbs";
+import Loader from "@/components/global/loader";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
-import { PulsatingButton } from "@/components/ui/pulsating-button";
-import { RainbowButton } from "@/components/ui/rainbow-button";
 import { Separator } from "@/components/ui/separator";
-import { ShimmerButton } from "@/components/ui/shimmer-button";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { PlayCircleIcon, SearchIcon } from "lucide-react";
-import { redirect, usePathname } from "next/navigation";
-import path from "path";
+import UserContext, { useUser } from "@/context/UserContext";
+import { User } from "@prisma/client";
+import { PlayCircleIcon } from "lucide-react";
 import { useEffect } from "react";
 
 export default function LayoutProvider({
@@ -33,19 +22,35 @@ export default function LayoutProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const pathName = usePathname();
   const { data: session } = useSession();
-
-  if (pathName === "/login") {
-    if (session) {
-      redirect("/");
-    }
-    return <>{children}</>;
+  const { user, setUser } = useUser();
+  if (!session) {
+    return <Loader />;
   }
 
-  useEffect(() => {
-    console.log(session);
-  }, [session]);
+  // useEffect(() => {
+  //   console.log(session);
+
+  //   if (session) {
+  //     // const userData = fetchUserPlan()
+  //     // setUser({
+  //     //   name: session.user.name,
+  //     //   email: session.user.email,
+  //     //   id: session.user.id,
+  //     //   plan: session.user.
+  //     // });
+  //   }
+  // }, [session]);
+
+  // const fetchUserPlan = async () => {
+  //     const response = await fetch("/api/subscription", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({ userId: session.user.id }),
+  //     });
+  //     const data  = response.json();
+  //     return data;
+  // }
 
   return (
     <SidebarProvider>

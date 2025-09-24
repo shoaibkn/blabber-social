@@ -7,10 +7,11 @@ import {
   Lora,
   Space_Grotesk,
 } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { ModeToggle } from "@/components/mode-toggle";
 import LayoutProvider from "@/providers/layout-provider";
+import { UserProvider } from "@/context/UserContext";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -54,38 +55,25 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  //   return (
-  //     <html lang="en" suppressHydrationWarning>
-  //       <body
-  //         className={`${dmSans.variable} ${loraSerif.variable} ${ibmPlexMono.variable} antialiased`}
-  //       >
-  //         <ThemeProvider
-  //           attribute="class"
-  //           defaultTheme="system"
-  //           enableSystem
-  //           disableTransitionOnChange
-  //         >
-  //           {children}
-  //         </ThemeProvider>
-  //       </body>
-  //     </html>
-  //   );
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${dmSans.variable} ${loraSerif.variable} ${ibmPlexMono.variable} antialiased`}
-      >
-        {/* <LayoutProvider> */}
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
-        {/* </LayoutProvider> */}
-      </body>
-    </html>
+    // <html lang="en" suppressHydrationWarning>
+    //   <body
+    //     className={`${dmSans.variable} ${loraSerif.variable} ${ibmPlexMono.variable} antialiased`}
+    //   >
+    <UserProvider>
+      <LayoutProvider>
+        {/* <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <ModeToggle /> */}
+        {children} {/* </ThemeProvider> */}
+      </LayoutProvider>
+    </UserProvider>
+
+    //   </body>
+    // </html>
   );
 }

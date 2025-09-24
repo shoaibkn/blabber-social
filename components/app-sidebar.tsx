@@ -38,6 +38,8 @@ import { Card, CardContent, CardFooter, CardTitle } from "./ui/card";
 import { AuroraText } from "./ui/aurora-text";
 import { Button } from "./ui/button";
 import { InteractiveHoverButton } from "./ui/interactive-hover-button";
+import { useUser } from "@/context/UserContext";
+import { useSession } from "@/auth-client";
 
 const data = {
   user: {
@@ -186,7 +188,51 @@ const data = {
   // ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ ...props }: any) {
+  // const { user, setUser } = useUser();
+  const { data: session } = useSession();
+  // const { user, session } = userSession;
+  // React.useEffect(() => {
+  //   console.log(session, user);
+  //   if (!user) {
+  //     if (session) {
+  //       const { user } = session;
+  //       setUser({
+  //         id: user.id,
+  //         email: user.email,
+  //         name: user.name,
+  //         image: user?.image || undefined,
+  //         plan: "Free",
+  //       });
+  //     }
+  //   } else if (user) {
+  //     if (user.plan) {
+  //       console.log("User Plan Exists");
+  //       return;
+  //     } else {
+  //       if (session) {
+  //         provideSubscription();
+  //       }
+  //     }
+  //   }
+  // }, [session, user]);
+
+  React.useEffect(() => {
+    console.log(session);
+  }, [session]);
+
+  const provideSubscription = async () => {
+    if (session) {
+      const response = await fetch("/api/subscription", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: session.user.id }),
+      });
+      const data = await response.json();
+      console.log(data);
+    }
+  };
+
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
@@ -199,7 +245,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">Blabber Social</span>
-                  <span className="truncate text-xs">Free</span>
+                  <span className="truncate text-xs">
+                    {/*@ts-expect-error*/}
+                    {session?.user?.plan.plan}
+                  </span>
                 </div>
               </a>
             </SidebarMenuButton>
@@ -211,27 +260,30 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {/* <NavProjects projects={data.projects} /> */}
         <Separator className="opacity-50" />
         <NavSecondary items={data.navSecondary} className="" />
-        <Card className="h-full bg-card m-2 p-4 flex flex-col justify-between">
-          <div className="flex flex-col gap-6">
-            <CardTitle className="p-0">
-              <h1 className="font-medium text-2xl">
-                Upgrade to{" "}
-                <AuroraText className="text-3xl">Smart AI</AuroraText>
-              </h1>
-            </CardTitle>
-            <CardContent className="p-0">
-              <p>Lorem ipsum doler salamat</p>
-            </CardContent>
-          </div>
+        {/*@ts-expect-error*/}
+        {session?.user.plan.plan === "FREE" && (
+          <Card className="h-full bg-card m-2 p-4 flex flex-col justify-between">
+            <div className="flex flex-col gap-6">
+              <CardTitle className="p-0">
+                <h1 className="font-medium text-2xl">
+                  Upgrade to{" "}
+                  <AuroraText className="text-3xl">Smart AI</AuroraText>
+                </h1>
+              </CardTitle>
+              <CardContent className="p-0">
+                <p>Lorem ipsum doler salamat</p>
+              </CardContent>
+            </div>
 
-          <div>
-            <InteractiveHoverButton className="w-full">
-              <span className="flex flex-row justify-between w-full gap-4">
-                Upgrade <Sparkles />
-              </span>
-            </InteractiveHoverButton>
-          </div>
-        </Card>
+            <div>
+              <InteractiveHoverButton className="w-full">
+                <span className="flex flex-row justify-between w-full gap-4">
+                  Upgrade <Sparkles />
+                </span>
+              </InteractiveHoverButton>
+            </div>
+          </Card>
+        )}
       </SidebarContent>
 
       <SidebarFooter>

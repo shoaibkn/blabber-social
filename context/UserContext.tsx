@@ -4,10 +4,9 @@ import { createContext, useContext, useState } from "react";
 export type User = {
   id: string;
   name: string;
-  username: string;
-  displayUsername: string;
   email: string;
-  plan: string;
+  image?: string;
+  plan?: string | "FREE";
 };
 
 type UserContextType = {
