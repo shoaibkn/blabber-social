@@ -2,6 +2,7 @@
 import { useSession } from "@/auth-client";
 import { AppSidebar } from "@/components/app-sidebar";
 import Breadcrumbs from "@/components/breadcrumbs";
+import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -74,8 +75,11 @@ export default function LayoutProvider({
               <PlayCircleIcon width={12} height={12} />
             </Button>
           </div>
-          <div className="flex items-center gap-2 px-6 h-4">
-            <Breadcrumbs />
+          <div className="flex flex-row justify-between px-4 ">
+            <div className="flex items-center gap-2 h-4">
+              <Breadcrumbs />
+            </div>
+            <AnimatedThemeToggler />
           </div>
         </header>
         {/* Header for Mobiles */}
@@ -88,8 +92,9 @@ export default function LayoutProvider({
             />
             <Breadcrumbs />
           </div>
+          <AnimatedThemeToggler />
         </header>
-        {children}
+        <section className="p-4">{children}</section>
       </SidebarInset>
     </SidebarProvider>
   );

@@ -37,6 +37,7 @@ import { Separator } from "./ui/separator";
 import { Card, CardContent, CardFooter, CardTitle } from "./ui/card";
 import { AuroraText } from "./ui/aurora-text";
 import { Button } from "./ui/button";
+import { InteractiveHoverButton } from "./ui/interactive-hover-button";
 
 const data = {
   user: {
@@ -222,11 +223,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <p>Lorem ipsum doler salamat</p>
             </CardContent>
           </div>
-          <CardFooter className="p-0">
-            <Button className="w-full">
-              Upgrade <Sparkles />
-            </Button>
-          </CardFooter>
+
+          <div>
+            <InteractiveHoverButton className="w-full">
+              <span className="flex flex-row justify-between w-full gap-4">
+                Upgrade <Sparkles />
+              </span>
+            </InteractiveHoverButton>
+          </div>
         </Card>
       </SidebarContent>
 
