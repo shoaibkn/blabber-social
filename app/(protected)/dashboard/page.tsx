@@ -1,24 +1,21 @@
+"use client";
 import { Card, CardFooter, CardTitle } from "@/components/ui/card";
 import { MagicCard } from "@/components/ui/magic-card";
+import { userQuery } from "@/lib/queries/user/user";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { HomeIcon } from "lucide-react";
 import React from "react";
 
 type Props = {};
 
-const Dashboard = async (props: Props) => {
+const Dashboard = (props: Props) => {
+  const { data, isLoading, error } = useSuspenseQuery(userQuery);
   return (
     <main className="">
       <h1 className="text-3xl font-light">
-        Welcome back, <span className="font-medium">Shoaib Khan</span>
+        Welcome back, <span className="font-medium">{data?.name}</span>
       </h1>
       <div>
-        {/* <MagicCard
-            className="h-48 rounded-xl bg-white"
-            gradientColor="#34d399"
-            gradientOpacity={0.1}
-            gradientFrom="#22c55e"
-            gradientTo="#2dd4bf"
-          ></MagicCard> */}
         <div className="grid grid-cols-2 gap-4">
           <Card className="p-4 h-48 bg-linear-to-br/shorter from-primary to-sidebar-primary-foreground">
             <CardTitle></CardTitle>

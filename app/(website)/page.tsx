@@ -5,13 +5,15 @@ import React from "react";
 
 const HomePage = () => {
   return (
-    <div className="mx-auto w-screen h-screen flex flex-row gap-12">
-      <Link href="/dashboard">
-        <Button variant="secondary">Go to Dashboard</Button>
-      </Link>
-      <Link href="/login">
-        <Button>Go to Login</Button>
-      </Link>
+    <div className="flex mx-auto w-screen h-screen flex-row gap-12 p-48">
+      <Button variant="secondary" asChild>
+        <Link href="/dashboard">Go to Dashboard</Link>
+      </Button>
+
+      <Button>
+        <Link href="/login">Go to Login</Link>
+      </Button>
+
       <AnimatedThemeToggler />
     </div>
   );

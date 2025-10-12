@@ -11,6 +11,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { ModeToggle } from "@/components/mode-toggle";
 import LayoutProvider from "@/providers/layout-provider";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "@/lib/query";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -54,28 +56,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  //   return (
-  //     <html lang="en" suppressHydrationWarning>
-  //       <body
-  //         className={`${dmSans.variable} ${loraSerif.variable} ${ibmPlexMono.variable} antialiased`}
-  //       >
-  //         <ThemeProvider
-  //           attribute="class"
-  //           defaultTheme="system"
-  //           enableSystem
-  //           disableTransitionOnChange
-  //         >
-  //           {children}
-  //         </ThemeProvider>
-  //       </body>
-  //     </html>
-  //   );
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${dmSans.variable} ${loraSerif.variable} ${ibmPlexMono.variable} antialiased`}
       >
-        {/* <LayoutProvider> */}
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -84,7 +69,6 @@ export default function RootLayout({
         >
           {children}
         </ThemeProvider>
-        {/* </LayoutProvider> */}
       </body>
     </html>
   );

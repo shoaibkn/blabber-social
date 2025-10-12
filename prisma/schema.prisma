@@ -64,7 +64,7 @@ model Integrations {
   userId      String?
   User        User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
   token       String       @unique
-  expiresAt   DateTime?
+  expiresAt   DateTime
   instagramId String?      @unique
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @default(now()) @updatedAt

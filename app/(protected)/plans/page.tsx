@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { MagicCard } from "@/components/ui/magic-card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { ShineBorder } from "@/components/ui/shine-border";
@@ -126,135 +127,141 @@ const Plans = () => {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row lg:flex-row justify-between gap-6 w-full md:w-full lg:w-3/4 mx-auto lg:min-w-2xl">
-        <MagicCard
-          className="rounded-md w-full md:w-1/2 lg:w-1/2"
-          gradientColor="#34d399"
-          gradientOpacity={0.1}
-          gradientFrom="#22c55e"
-          gradientTo="#2dd4bf"
-        >
-          <div className="p-4 flex flex-col justify-between h-full">
-            <div>
-              <Badge className="text-sm" variant="secondary">
-                {PLANS[0].title}
-              </Badge>
-              <div className="flex flex-col gap-2 my-2 pb-6">
-                <div className="flex flex-col">
+      <ScrollArea className="h-full">
+        <div className="flex flex-col md:flex-row lg:flex-row justify-between gap-6 w-full md:w-full lg:w-3/4 mx-auto lg:min-w-2xl">
+          <MagicCard
+            className="rounded-md w-full md:w-1/2 lg:w-1/2"
+            gradientColor="#34d399"
+            gradientOpacity={0.1}
+            gradientFrom="#22c55e"
+            gradientTo="#2dd4bf"
+          >
+            <div className="p-4 flex flex-col justify-between h-full">
+              <div>
+                <Badge className="text-sm" variant="secondary">
+                  {PLANS[0].title}
+                </Badge>
+                <div className="flex flex-col gap-2 my-2 pb-6">
+                  <div className="flex flex-col">
+                    <h1 className="text-5xl">
+                      {currentPlan === "FREE"
+                        ? "Current Plan"
+                        : "Downgrade Plan"}
+                    </h1>
+                    <span className="text-sm text-muted-foreground">
+                      {PLANS[0].for}
+                    </span>
+                  </div>
                   <h1 className="text-5xl">
-                    {currentPlan === "FREE" ? "Current Plan" : "Downgrade Plan"}
+                    ₹
+                    {isAnnually
+                      ? (PLANS[0].price.yearly as number) / 12
+                      : PLANS[0].price.monthly}
+                    /<span className="text-base">month</span>
                   </h1>
-                  <span className="text-sm text-muted-foreground">
-                    {PLANS[0].for}
-                  </span>
                 </div>
-                <h1 className="text-5xl">
-                  ₹
-                  {isAnnually
-                    ? (PLANS[0].price.yearly as number) / 12
-                    : PLANS[0].price.monthly}
-                  /<span className="text-base">month</span>
-                </h1>
-              </div>
 
-              <Separator />
-            </div>
-            <ul className="flex flex-col gap-4 my-4 h-full items-start">
-              {PLANS[0].features.map((feature: string, index: number) => (
-                <li className="flex flex-row gap-2" key={index}>
-                  <CheckCircle2Icon strokeWidth={1.5} /> {feature}
-                </li>
-              ))}
-            </ul>
-            <Button
-              className="w-full"
-              variant="outline"
-              disabled={currentPlan === "FREE"}
-            >
-              {currentPlan === "FREE" ? "Your current plan" : "Downgrade Plan"}
-            </Button>
-          </div>
-        </MagicCard>
-        <MagicCard
-          className="rounded-md w-full md:w-1/2 lg:w-1/2"
-          gradientColor="#34d399"
-          gradientOpacity={0.1}
-          gradientFrom="#22c55e"
-          gradientTo="#2dd4bf"
-        >
-          <ShineBorder
-            shineColor="#34d399"
-            borderWidth={4}
-            duration={10}
-            className="rounded-md w-full h-full"
-          />
-          <div className="p-4 flex flex-col justify-between h-full">
-            <div>
-              <Badge className="text-sm">{PLANS[1].title}</Badge>
-              <div className="flex flex-col gap-2 my-2 pb-6">
-                <div className="flex flex-col">
-                  {currentPlan === "PRO" ? "Current Plan" : "Upgrade to"}
-                  <AuroraText className="text-5xl font-bold">
-                    Smart AI
-                  </AuroraText>
-                  <span className="text-sm text-muted-foreground">
-                    {PLANS[1].for}
-                  </span>
-                </div>
-                <h1 className="text-5xl">
-                  ₹
-                  {isAnnually
-                    ? Math.round((PLANS[1].price.yearly as number) / 12)
-                    : PLANS[1].price.monthly}
-                  /<span className="text-base">month</span>
-                </h1>
+                <Separator />
               </div>
-
-              <Separator />
-            </div>
-            <ul className="flex flex-col gap-4 my-4 h-full items-start">
-              {PLANS[1].features.map((feature: string, index: number) => (
-                <li className="flex flex-row gap-2" key={index}>
-                  <CheckCircle2Icon strokeWidth={1.5} /> {feature}
-                </li>
-              ))}
-            </ul>
-            <Button disabled={currentPlan === "PRO"} className="w-full">
-              {currentPlan === "PRO" ? "Your current plan" : "Switch to Pro"}
-            </Button>
-          </div>
-        </MagicCard>
-      </div>
-      <MagicCard
-        className="rounded-md md:w-full lg:w-3/4 w-full mx-auto mt-6"
-        gradientColor="#34d399"
-        gradientOpacity={0.1}
-        gradientFrom="#22c55e"
-        gradientTo="#2dd4bf"
-      >
-        <div className="p-4 flex flex-col justify-between h-full">
-          <div>
-            <Badge className="text-sm">{PLANS[2].title}</Badge>
-            <div className="flex flex-col gap-2 my-2">
-              <div className="flex flex-col">
-                {currentPlan === "ENTERPRISE" ? (
-                  <h1 className="text-5xl">Current Enterprise Plan</h1>
-                ) : (
-                  <h1 className="text-5xl">Switch to Enterprise Plan</h1>
-                )}
-                <span className="text-sm text-muted-foreground">
-                  {PLANS[2].for}
-                </span>
-              </div>
-            </div>
-            <div className="flex flex-row justify-end">
-              <Button size="lg" disabled={currentPlan === "ENTERPRISE"}>
-                Contact Sales
+              <ul className="flex flex-col gap-4 my-4 h-full items-start">
+                {PLANS[0].features.map((feature: string, index: number) => (
+                  <li className="flex flex-row gap-2" key={index}>
+                    <CheckCircle2Icon strokeWidth={1.5} /> {feature}
+                  </li>
+                ))}
+              </ul>
+              <Button
+                className="w-full"
+                variant="outline"
+                disabled={currentPlan === "FREE"}
+              >
+                {currentPlan === "FREE"
+                  ? "Your current plan"
+                  : "Downgrade Plan"}
               </Button>
             </div>
-          </div>
+          </MagicCard>
+          <MagicCard
+            className="rounded-md w-full md:w-1/2 lg:w-1/2"
+            gradientColor="#34d399"
+            gradientOpacity={0.1}
+            gradientFrom="#22c55e"
+            gradientTo="#2dd4bf"
+          >
+            <ShineBorder
+              shineColor="#34d399"
+              borderWidth={4}
+              duration={10}
+              className="rounded-md w-full h-full"
+            />
+            <div className="p-4 flex flex-col justify-between h-full">
+              <div>
+                <Badge className="text-sm">{PLANS[1].title}</Badge>
+                <div className="flex flex-col gap-2 my-2 pb-6">
+                  <div className="flex flex-col">
+                    {currentPlan === "PRO" ? "Current Plan" : "Upgrade to"}
+                    <AuroraText className="text-5xl font-bold">
+                      Smart AI
+                    </AuroraText>
+                    <span className="text-sm text-muted-foreground">
+                      {PLANS[1].for}
+                    </span>
+                  </div>
+                  <h1 className="text-5xl">
+                    ₹
+                    {isAnnually
+                      ? Math.round((PLANS[1].price.yearly as number) / 12)
+                      : PLANS[1].price.monthly}
+                    /<span className="text-base">month</span>
+                  </h1>
+                </div>
+
+                <Separator />
+              </div>
+              <ul className="flex flex-col gap-4 my-4 h-full items-start">
+                {PLANS[1].features.map((feature: string, index: number) => (
+                  <li className="flex flex-row gap-2" key={index}>
+                    <CheckCircle2Icon strokeWidth={1.5} /> {feature}
+                  </li>
+                ))}
+              </ul>
+              <Button disabled={currentPlan === "PRO"} className="w-full">
+                {currentPlan === "PRO" ? "Your current plan" : "Switch to Pro"}
+              </Button>
+            </div>
+          </MagicCard>
         </div>
-      </MagicCard>
+        <MagicCard
+          className="rounded-md md:w-full lg:w-3/4 w-full mx-auto mt-6"
+          gradientColor="#34d399"
+          gradientOpacity={0.1}
+          gradientFrom="#22c55e"
+          gradientTo="#2dd4bf"
+        >
+          <div className="p-4 flex flex-col justify-between h-full">
+            <div>
+              <Badge className="text-sm">{PLANS[2].title}</Badge>
+              <div className="flex flex-col gap-2 my-2">
+                <div className="flex flex-col">
+                  {currentPlan === "ENTERPRISE" ? (
+                    <h1 className="text-5xl">Current Enterprise Plan</h1>
+                  ) : (
+                    <h1 className="text-5xl">Switch to Enterprise Plan</h1>
+                  )}
+                  <span className="text-sm text-muted-foreground">
+                    {PLANS[2].for}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-row justify-end">
+                <Button size="lg" disabled={currentPlan === "ENTERPRISE"}>
+                  Contact Sales
+                </Button>
+              </div>
+            </div>
+          </div>
+        </MagicCard>
+      </ScrollArea>
     </main>
   );
 };
