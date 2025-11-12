@@ -72,7 +72,7 @@ const VisuallyHidden: React.FC<{ children: React.ReactNode }> = ({
 );
 
 type Props = {
-  params: { id: string };
+  params: { slug: string };
 };
 
 const AutomationPage = ({ params }: Props) => {

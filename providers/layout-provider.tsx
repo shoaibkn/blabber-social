@@ -54,13 +54,6 @@ export default function LayoutProvider({
                 <AudioWaveformIcon />
                 Create an Automation
               </Button>
-              {/* <Button
-              size="icon"
-              className="h-10 w-10 rounded-full"
-              variant="outline"
-            >
-              <PlayCircleIcon width={12} height={12} />
-            </Button> */}
               <Notifications notificationCount={8} />
             </div>
             <div className="flex flex-row justify-between px-4 ">

@@ -12,3 +12,7 @@ export const fetchAutomations = async () => {
   const data = await response.json();
   return data;
 };
+
+export const createAutomations = async () => {
+  return null;
+};
