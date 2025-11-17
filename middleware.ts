@@ -1,22 +1,48 @@
 import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
-import { auth } from "@/auth";
 import { client } from "./lib/prisma";
+import { stackServerApp } from "./stack/server";
 
 export async function middleware(request: NextRequest) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const user = await stackServerApp.getUser();
 
-  if (!session) {
+  // const session = await s({
+  //   headers: await headers(),
+  // });
+
+  if (!user) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  if (session) {
+  if (user) {
     // console.log("session from middleware", session);
-    const user = await client.user.findUnique({
+    //check if user exists in prisma
+
+    const userExists = await client.user.findUnique({
       where: {
-        id: session.user.id,
+        id: user.id,
+      },
+    });
+
+    if (!userExists) {
+      if (!user.primaryEmail) {
+        console.log("User does not have a primary email");
+        return NextResponse.redirect(new URL("/", request.url));
+      }
+      await client.user.create({
+        data: {
+          id: user.id,
+          email: user.primaryEmail,
+          name: user.displayName,
+          // image: user,
+        },
+      });
+      console.log("Stack User added to DB");
+    }
+
+    const userData = await client.user.findUnique({
+      where: {
+        id: user.id,
       },
       include: {
         Integrations: true,
@@ -24,8 +50,8 @@ export async function middleware(request: NextRequest) {
       },
     });
   }
-  if (session?.user?.id) {
-    await refreshInstagramToken(session.user.id);
+  if (user.id) {
+    await refreshInstagramToken(user.id);
   }
   return NextResponse.next();
 }
@@ -51,7 +77,7 @@ const refreshInstagramToken = async (userId: string) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ token: instagramToken.token }),
-      }
+      },
     );
 
     if (!refresh.ok) {

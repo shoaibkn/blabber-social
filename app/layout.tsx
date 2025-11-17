@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { StackProvider, StackTheme } from "@stackframe/stack";
+import { stackClientApp } from "../stack/client";
 import {
   DM_Sans,
   Geist,
@@ -61,7 +63,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${dmSans.variable} ${loraSerif.variable} ${ibmPlexMono.variable} antialiased`}
-      >
+      ><StackProvider app={stackClientApp}><StackTheme>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -71,7 +73,7 @@ export default function RootLayout({
           {children}
           <Toaster />
         </ThemeProvider>
-      </body>
+      </StackTheme></StackProvider></body>
     </html>
   );
 }

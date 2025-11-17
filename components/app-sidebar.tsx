@@ -39,7 +39,7 @@ import { AuroraText } from "./ui/aurora-text";
 import { Button } from "./ui/button";
 import { InteractiveHoverButton } from "./ui/interactive-hover-button";
 import { useUser } from "@/context/UserContext";
-import { useSession } from "@/auth-client";
+// import { useSession } from "@/auth-client";
 
 const data = {
   user: {
@@ -190,7 +190,8 @@ const data = {
 
 export function AppSidebar({ ...props }: any) {
   // const { user, setUser } = useUser();
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
+  const userData = useUser();
   // const { user, session } = userSession;
   // React.useEffect(() => {
   //   console.log(session, user);
@@ -218,15 +219,15 @@ export function AppSidebar({ ...props }: any) {
   // }, [session, user]);
 
   React.useEffect(() => {
-    console.log(session);
-  }, [session]);
+    console.log(userData);
+  }, [userData]);
 
   const provideSubscription = async () => {
-    if (session) {
+    if (userData) {
       const response = await fetch("/api/subscription", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: session.user.id }),
+        body: JSON.stringify({ userId: userData.id }),
       });
       const data = await response.json();
       console.log(data);

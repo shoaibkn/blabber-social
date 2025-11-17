@@ -1,5 +1,5 @@
 "use client";
-import { useSession } from "@/auth-client";
+// import { useSession } from "@/auth-client";
 import { AppSidebar } from "@/components/app-sidebar";
 import Breadcrumbs from "@/components/breadcrumbs";
 import Loader from "@/components/global/loader";
@@ -26,9 +26,10 @@ export default function LayoutProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
+  const data = useUser();
   const { user, setUser } = useUser();
-  if (!session) {
+  if (!data.user?.id) {
     return <Loader />;
   }
 

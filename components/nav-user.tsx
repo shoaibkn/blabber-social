@@ -25,8 +25,10 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { signOut, signOutUser, useSession } from "@/auth-client";
+// import { signOut, signOutUser, useSession } from "@/auth-client";
 import { redirect } from "next/navigation";
+import { useUser } from "@/context/UserContext";
+import { useStackApp } from "@stackframe/stack";
 
 export function NavUser({
   user,
@@ -38,7 +40,8 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
-  const { data: session } = useSession();
+  const userData = useUser();
+  const app = useStackApp();
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -50,17 +53,16 @@ export function NavUser({
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage
-                  //@ts-expect-error
-                  src={session?.user.image}
-                  alt={session?.user.name}
+                  src={userData.user?.image}
+                  alt={userData.user?.name}
                 />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">
-                  {session?.user.name}
+                  {userData.user?.name}
                 </span>
-                <span className="truncate text-xs">{session?.user.email}</span>
+                <span className="truncate text-xs">{userData.user?.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -75,31 +77,29 @@ export function NavUser({
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage
-                    //@ts-expect-error
-                    src={session?.user.image}
-                    alt={session?.user.name}
+                    src={userData.user?.image}
+                    alt={userData.user?.name}
                   />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">
-                    {session?.user.name}
+                    {userData.user?.name}
                   </span>
                   <span className="truncate text-xs">
-                    {session?.user.email}
+                    {userData.user?.email}
                   </span>
                 </div>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem onClick={() => redirect("/plans")}>
+              {/*<DropdownMenuItem onClick={() => redirect("/plans")}>
                 <Sparkles />
-                {/*@ts-expect-error*/}
-                {session?.user.plan.plan === "FREE"
+                {userData.user?.plan.plan === "FREE"
                   ? "Upgrade to Pro"
                   : "View Plans"}
-              </DropdownMenuItem>
+              </DropdownMenuItem>*/}
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
@@ -117,7 +117,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => signOutUser()}>
+            <DropdownMenuItem onClick={() => app.signOut()}>
               <LogOut />
               Log out
             </DropdownMenuItem>
